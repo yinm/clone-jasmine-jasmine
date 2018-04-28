@@ -1,1 +1,1 @@
-# clone-jasmine-jasmine
+Clone [jasmine/jasmine: Simple JavaScript testing framework for browsers and node.js](https://github.com/jasmine/jasmine) for study.

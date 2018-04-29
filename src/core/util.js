@@ -102,4 +102,14 @@ getJasmineRequireObj().util = (j$) => {
   util.has = (obj, key) => {
     return Object.prototype.hasOwnProperty.call(obj, key)
   }
+
+  function anyMatch(pattern, lines) {
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].match(pattern)) {
+        return true
+      }
+    }
+
+    return false
+  }
 }

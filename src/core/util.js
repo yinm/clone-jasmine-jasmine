@@ -8,4 +8,14 @@ getJasmineRequireObj().util = (j$) => {
     Subclass.prototype = parentClass.prototype
     childClass.prototype = new Subclass()
   }
+
+  uitl.htmlEscape = (str) => {
+    if (!str) {
+      return str
+    }
+
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+  }
 }

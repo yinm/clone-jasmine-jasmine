@@ -42,4 +42,19 @@ getJasmineRequireObj().util = (j$) => {
     return false
   }
 
+  util.clone = (obj) => {
+    if (Object.prototype.toString.apply(obj) === '[object Array]') {
+      return obj.slice()
+    }
+
+    let cloned = {}
+    for (let prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        cloned[prop] = obj[prop]
+      }
+    }
+
+    return cloned
+  }
+
 }

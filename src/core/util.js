@@ -30,4 +30,16 @@ getJasmineRequireObj().util = (j$) => {
   util.isUndefined = (obj) => {
     return obj === void 0
   }
+
+  util.arrayContains = (array, search) => {
+    let i = array.length
+    while (i--) {
+      if (array[i] === search) {
+        return true
+      }
+    }
+
+    return false
+  }
+
 }

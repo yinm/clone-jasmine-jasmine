@@ -98,4 +98,8 @@ getJasmineRequireObj().util = (j$) => {
 
     return diff
   }
+
+  util.has = (obj, key) => {
+    return Object.prototype.hasOwnProperty.call(obj, key)
+  }
 }

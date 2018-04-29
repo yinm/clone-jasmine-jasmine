@@ -18,4 +18,12 @@ getJasmineRequireObj().util = (j$) => {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
   }
+
+  util.argsToArray = (args) => {
+    let arrayOfArgs = []
+    for (let i = 0; i < args.length; i++) {
+      arrayOfArgs.push(args[i])
+    }
+    return arrayOfArgs
+  }
 }

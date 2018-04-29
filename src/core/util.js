@@ -26,4 +26,8 @@ getJasmineRequireObj().util = (j$) => {
     }
     return arrayOfArgs
   }
+
+  util.isUndefined = (obj) => {
+    return obj === void 0
+  }
 }

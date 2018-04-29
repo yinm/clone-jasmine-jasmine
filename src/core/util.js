@@ -112,4 +112,21 @@ getJasmineRequireObj().util = (j$) => {
 
     return false
   }
+
+  util.errorWithStack = () => {
+    // Don't throw and catch if we don't have to, because it makes it harder
+    // for users to debug their code with exception breakpoints.
+    const error = new Error()
+
+    if (error.stack) {
+      return error
+    }
+
+    // But some browsers (e.g. Phantom) only provide a stack trace if we throw.
+    try {
+      throw new Error()
+    } catch (e) {
+      return e
+    }
+  }
 }

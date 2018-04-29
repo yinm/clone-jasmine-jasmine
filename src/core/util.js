@@ -57,4 +57,22 @@ getJasmineRequireObj().util = (j$) => {
     return cloned
   }
 
+  util.cloneArgs = (args) => {
+    let clonedArgs = []
+    const argsAsArray = j$.util.argsToArray(args)
+    for (let i = 0; i < argsAsArray.length; i++) {
+      const str = Object.prototype.toString.apply(argsAsArray[i])
+      const primitives = /^\[object (Boolean|String|RegExp|Number)/
+
+      // All falsy values are either primitives, `null`, or `undefined`.
+      if (!argsAsArray[i] || str.match(primitives)) {
+        clonedArgs.push(argsAsArray[i])
+      } else {
+        clonedArgs.push(j$.util.clone(argsAsArray[i]))
+      }
+    }
+
+    return clonedArgs
+  }
+
 }

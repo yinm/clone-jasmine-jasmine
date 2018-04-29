@@ -75,4 +75,15 @@ getJasmineRequireObj().util = (j$) => {
     return clonedArgs
   }
 
+  util.getPropertyDescriptor = (obj, methodName) => {
+    let descriptor
+    let proto = obj
+
+    do {
+      descriptor = Object.getOwnPropertyDescriptor(proto, methodName)
+      proto = Object.getPrototypeOf(proto)
+    } while (!descriptor && proto)
+
+    return descriptor
+  }
 }

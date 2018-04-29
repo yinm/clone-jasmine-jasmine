@@ -86,4 +86,16 @@ getJasmineRequireObj().util = (j$) => {
 
     return descriptor
   }
+
+  util.objectDifference = (obj, toRemove) => {
+    let diff = {}
+
+    for (let key in obj) {
+      if (util.has(obj, key) && !util.has(toRemove, key)) {
+        diff[key] = obj[key]
+      }
+    }
+
+    return diff
+  }
 }

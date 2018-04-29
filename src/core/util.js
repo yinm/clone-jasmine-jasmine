@@ -134,4 +134,20 @@ getJasmineRequireObj().util = (j$) => {
     const trace = new j$.StackTrace(util.errorWithStack())
     return trace.frames[2].file
   }
+
+  util.jasmineFile = (() => {
+    let result
+
+    return () => {
+      let trace
+
+      if (!result) {
+        result = callerFile()
+      }
+
+      return result
+    }
+  })()
+
+  return util
 }

@@ -168,5 +168,10 @@ getJasmineRequireObj().Spec = (j$) => {
 
     Spec.pendingSpecExceptionMessage = '=> marked Pending'
 
+    Spec.isPendingSpecException = (e) => {
+      return !!(e && e.toString && e.toString().indexOf(Spec.pendingSpecExceptionMessage) !== -1)
+    }
+
+    return Spec
   }
 }

@@ -100,5 +100,24 @@ getJasmineRequireObj().Spec = (j$) => {
       this.queueRunnerFactory(runnerConfig)
     }
 
+    Spec.prototype.onException = function onException(e) {
+       if (Spec.isPendingSpecException(e)) {
+         this.pend(extractCustomPendingMessage(e))
+         return
+       }
+
+       if (e instanceof j$.errors.ExpectationFailed) {
+         return
+       }
+
+       this.addExpectationResult(false, {
+         matcherName: '',
+         passed: false,
+         expected: '',
+         actual: '',
+         error: e
+       }, true)
+    }
+
   }
 }

@@ -131,5 +131,21 @@ getJasmineRequireObj().Spec = (j$) => {
       return this.result
     }
 
+    Spec.prototype.status = function(excluded) {
+      if (excluded === true) {
+        return 'excluded'
+      }
+
+      if (this.markedPending) {
+        return 'pending'
+      }
+
+      if (this.result.failedExpectations.length > 0) {
+        return 'failed'
+      } else {
+        return 'passed'
+      }
+    }
+
   }
 }

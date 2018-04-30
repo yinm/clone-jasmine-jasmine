@@ -147,5 +147,9 @@ getJasmineRequireObj().Spec = (j$) => {
       }
     }
 
+    Spec.prototype.getFullName = function() {
+      return this.getSpecName(this)
+    }
+
   }
 }

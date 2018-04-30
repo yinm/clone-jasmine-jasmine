@@ -119,5 +119,12 @@ getJasmineRequireObj().Spec = (j$) => {
        }, true)
     }
 
+    Spec.prototype.pend = function(message) {
+      this.markedPending = true
+      if (message) {
+        this.result.pendingReason = message
+      }
+    }
+
   }
 }

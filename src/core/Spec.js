@@ -151,5 +151,12 @@ getJasmineRequireObj().Spec = (j$) => {
       return this.getSpecName(this)
     }
 
+    Spec.prototype.addDeprecationWarning = function(deprecation) {
+      if (typeof deprecation === 'string') {
+        deprecation = { message: deprecation }
+      }
+      this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
+    }
+
   }
 }

@@ -52,5 +52,9 @@ getJasmineRequireObj().Spec = (j$) => {
       }
     }
 
+    Spec.prototype.expect = function(actual) {
+      return this.expectationFactroy(actual, this)
+    }
+
   }
 }

@@ -38,140 +38,140 @@ getJasmineRequireObj().Spec = (j$) => {
       deprecationWarnings: [],
       pendingReason: '',
     }
-
-    Spec.prototype.addExpectationResult = function(passed, data, isError) {
-      const expectationResult = this.expectationResultFactory(data)
-      if (passed) {
-        this.result.passedExpectations.push(expectationResult)
-      } else {
-        this.result.failedExpectations.push(expectationResult)
-
-        if (this.throwOnExpectationFailure && !isError) {
-          throw new j$.errors.ExpectationFailed()
-        }
-      }
-    }
-
-    Spec.prototype.expect = function(actual) {
-      return this.expectationFactroy(actual, this)
-    }
-
-    Spec.prototype.execute = function(onComplete, excluded) {
-      const self = this
-
-      const onStart = {
-        fn(done) {
-          self.onStart(self, done)
-        }
-      }
-
-      const complete = {
-        fn(done) {
-          self.queueableFn.fn = null
-          self.result.status = self.status(excluded)
-          self.resultCallback(self.result, done)
-        }
-      }
-
-      const fns = this.beforeAndAfterFns
-      const regularFns = fns.befores.concat(this.queueableFn)
-
-      const runnerConfig = {
-        isLeaf: true,
-        queueableFns: regularFns,
-        cleanupFns: fns.afters,
-        onException() {
-          self.onException.apply(self, arguments)
-        },
-        onComplete() {
-          onComplete(self.result.status === 'failed' && new j$.StopExecutionError('spec failed'))
-        },
-        userContext: this.userContext()
-      }
-
-      if (this.markedPending || excluded === true) {
-        runnerConfig.queueableFns = []
-        runnerConfig.cleanupFns = []
-      }
-
-      runnerConfig.queueableFns.unshift(onStart)
-      runnerConfig.cleanupFns.push(complete)
-
-      this.queueRunnerFactory(runnerConfig)
-    }
-
-    Spec.prototype.onException = function onException(e) {
-       if (Spec.isPendingSpecException(e)) {
-         this.pend(extractCustomPendingMessage(e))
-         return
-       }
-
-       if (e instanceof j$.errors.ExpectationFailed) {
-         return
-       }
-
-       this.addExpectationResult(false, {
-         matcherName: '',
-         passed: false,
-         expected: '',
-         actual: '',
-         error: e
-       }, true)
-    }
-
-    Spec.prototype.pend = function(message) {
-      this.markedPending = true
-      if (message) {
-        this.result.pendingReason = message
-      }
-    }
-
-    Spec.prototype.getResult = function() {
-      this.result.status = this.status()
-      return this.result
-    }
-
-    Spec.prototype.status = function(excluded) {
-      if (excluded === true) {
-        return 'excluded'
-      }
-
-      if (this.markedPending) {
-        return 'pending'
-      }
-
-      if (this.result.failedExpectations.length > 0) {
-        return 'failed'
-      } else {
-        return 'passed'
-      }
-    }
-
-    Spec.prototype.getFullName = function() {
-      return this.getSpecName(this)
-    }
-
-    Spec.prototype.addDeprecationWarning = function(deprecation) {
-      if (typeof deprecation === 'string') {
-        deprecation = { message: deprecation }
-      }
-      this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
-    }
-
-    const extractCustomPendingMessage = (e) => {
-      let fullMessage = e.toString()
-      const boilerplateStart = fullMessage.indexOf(Spec.pendingSpecExceptionMessage)
-      const boilerplateEnd = boilerplateStart + Spec.pendingSpecExceptionMessage.length
-
-      return fullMessage.substr(boilerplateEnd)
-    }
-
-    Spec.pendingSpecExceptionMessage = '=> marked Pending'
-
-    Spec.isPendingSpecException = (e) => {
-      return !!(e && e.toString && e.toString().indexOf(Spec.pendingSpecExceptionMessage) !== -1)
-    }
-
-    return Spec
   }
+
+  Spec.prototype.addExpectationResult = function(passed, data, isError) {
+    const expectationResult = this.expectationResultFactory(data)
+    if (passed) {
+      this.result.passedExpectations.push(expectationResult)
+    } else {
+      this.result.failedExpectations.push(expectationResult)
+
+      if (this.throwOnExpectationFailure && !isError) {
+        throw new j$.errors.ExpectationFailed()
+      }
+    }
+  }
+
+  Spec.prototype.expect = function(actual) {
+    return this.expectationFactroy(actual, this)
+  }
+
+  Spec.prototype.execute = function(onComplete, excluded) {
+    const self = this
+
+    const onStart = {
+      fn(done) {
+        self.onStart(self, done)
+      }
+    }
+
+    const complete = {
+      fn(done) {
+        self.queueableFn.fn = null
+        self.result.status = self.status(excluded)
+        self.resultCallback(self.result, done)
+      }
+    }
+
+    const fns = this.beforeAndAfterFns
+    const regularFns = fns.befores.concat(this.queueableFn)
+
+    const runnerConfig = {
+      isLeaf: true,
+      queueableFns: regularFns,
+      cleanupFns: fns.afters,
+      onException() {
+        self.onException.apply(self, arguments)
+      },
+      onComplete() {
+        onComplete(self.result.status === 'failed' && new j$.StopExecutionError('spec failed'))
+      },
+      userContext: this.userContext()
+    }
+
+    if (this.markedPending || excluded === true) {
+      runnerConfig.queueableFns = []
+      runnerConfig.cleanupFns = []
+    }
+
+    runnerConfig.queueableFns.unshift(onStart)
+    runnerConfig.cleanupFns.push(complete)
+
+    this.queueRunnerFactory(runnerConfig)
+  }
+
+  Spec.prototype.onException = function onException(e) {
+    if (Spec.isPendingSpecException(e)) {
+      this.pend(extractCustomPendingMessage(e))
+      return
+    }
+
+    if (e instanceof j$.errors.ExpectationFailed) {
+      return
+    }
+
+    this.addExpectationResult(false, {
+      matcherName: '',
+      passed: false,
+      expected: '',
+      actual: '',
+      error: e
+    }, true)
+  }
+
+  Spec.prototype.pend = function(message) {
+    this.markedPending = true
+    if (message) {
+      this.result.pendingReason = message
+    }
+  }
+
+  Spec.prototype.getResult = function() {
+    this.result.status = this.status()
+    return this.result
+  }
+
+  Spec.prototype.status = function(excluded) {
+    if (excluded === true) {
+      return 'excluded'
+    }
+
+    if (this.markedPending) {
+      return 'pending'
+    }
+
+    if (this.result.failedExpectations.length > 0) {
+      return 'failed'
+    } else {
+      return 'passed'
+    }
+  }
+
+  Spec.prototype.getFullName = function() {
+    return this.getSpecName(this)
+  }
+
+  Spec.prototype.addDeprecationWarning = function(deprecation) {
+    if (typeof deprecation === 'string') {
+      deprecation = { message: deprecation }
+    }
+    this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
+  }
+
+  const extractCustomPendingMessage = (e) => {
+    let fullMessage = e.toString()
+    const boilerplateStart = fullMessage.indexOf(Spec.pendingSpecExceptionMessage)
+    const boilerplateEnd = boilerplateStart + Spec.pendingSpecExceptionMessage.length
+
+    return fullMessage.substr(boilerplateEnd)
+  }
+
+  Spec.pendingSpecExceptionMessage = '=> marked Pending'
+
+  Spec.isPendingSpecException = (e) => {
+    return !!(e && e.toString && e.toString().indexOf(Spec.pendingSpecExceptionMessage) !== -1)
+  }
+
+  return Spec
 }

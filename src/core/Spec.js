@@ -56,5 +56,49 @@ getJasmineRequireObj().Spec = (j$) => {
       return this.expectationFactroy(actual, this)
     }
 
+    Spec.prototype.execute = function(onComplete, excluded) {
+      const self = this
+
+      const onStart = {
+        fn(done) {
+          self.onStart(self, done)
+        }
+      }
+
+      const complete = {
+        fn(done) {
+          self.queueableFn.fn = null
+          self.result.status = self.status(excluded)
+          self.resultCallback(self.result, done)
+        }
+      }
+
+      const fns = this.beforeAndAfterFns
+      const regularFns = fns.befores.concat(this.queueableFn)
+
+      const runnerConfig = {
+        isLeaf: true,
+        queueableFns: regularFns,
+        cleanupFns: fns.afters,
+        onException() {
+          self.onException.apply(self, arguments)
+        },
+        onComplete() {
+          onComplete(self.result.status === 'failed' && new j$.StopExecutionError('spec failed'))
+        },
+        userContext: this.userContext()
+      }
+
+      if (this.markedPending || excluded === true) {
+        runnerConfig.queueableFns = []
+        runnerConfig.cleanupFns = []
+      }
+
+      runnerConfig.queueableFns.unshift(onStart)
+      runnerConfig.cleanupFns.push(complete)
+
+      this.queueRunnerFactory(runnerConfig)
+    }
+
   }
 }

@@ -175,3 +175,8 @@ getJasmineRequireObj().Spec = (j$) => {
 
   return Spec
 }
+
+if (typeof window == void 0 && typeof exports == 'object') {
+  /* globals exports */
+  exports.Spec = jasmineRequire.Spec
+}

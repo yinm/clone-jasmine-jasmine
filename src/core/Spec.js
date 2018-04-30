@@ -39,5 +39,18 @@ getJasmineRequireObj().Spec = (j$) => {
       pendingReason: '',
     }
 
+    Spec.prototype.addExpectationResult = function(passed, data, isError) {
+      const expectationResult = this.expectationResultFactory(data)
+      if (passed) {
+        this.result.passedExpectations.push(expectationResult)
+      } else {
+        this.result.failedExpectations.push(expectationResult)
+
+        if (this.throwOnExpectationFailure && !isError) {
+          throw new j$.errors.ExpectationFailed()
+        }
+      }
+    }
+
   }
 }

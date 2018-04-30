@@ -158,5 +158,15 @@ getJasmineRequireObj().Spec = (j$) => {
       this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
     }
 
+    const extractCustomPendingMessage = (e) => {
+      let fullMessage = e.toString()
+      const boilerplateStart = fullMessage.indexOf(Spec.pendingSpecExceptionMessage)
+      const boilerplateEnd = boilerplateStart + Spec.pendingSpecExceptionMessage.length
+
+      return fullMessage.substr(boilerplateEnd)
+    }
+
+    Spec.pendingSpecExceptionMessage = '=> marked Pending'
+
   }
 }

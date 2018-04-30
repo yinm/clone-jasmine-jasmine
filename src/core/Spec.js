@@ -126,5 +126,10 @@ getJasmineRequireObj().Spec = (j$) => {
       }
     }
 
+    Spec.prototype.getResult = function() {
+      this.result.status = this.status()
+      return this.result
+    }
+
   }
 }

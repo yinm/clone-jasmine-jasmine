@@ -189,6 +189,10 @@ getJasmineRequireObj().Env = function(j$) {
       return throwOnExpectationFailure
     }
 
+    this.stopOnSpecFailure = function(value) {
+      stopOnSpecFailure = !!value
+    }
+
   }
 
   return Env

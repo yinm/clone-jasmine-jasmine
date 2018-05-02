@@ -158,6 +158,16 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    const getSpecName = (spec, suite) => {
+      let fullName = [spec.description]
+      const suiteFullName = suite.getFullName()
+
+      if (suiteFullName !== '') {
+        fullName.unshift(suiteFullName)
+      }
+      return fullName.join(' ')
+    }
+
   }
 
   return Env

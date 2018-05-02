@@ -134,6 +134,11 @@ getJasmineRequireObj().Env = function(j$) {
       runnableResources[id] = resources
     }
 
+    const clearResourcesForRunnable = (id) => {
+      spyRegistry.clearSpies()
+      delete runnableResources[id]
+    }
+
   }
 
   return Env

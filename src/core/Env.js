@@ -212,6 +212,14 @@ getJasmineRequireObj().Env = function(j$) {
       return seed
     }
 
+    this.deprecated = function(deprecation) {
+      const runnable = currentRunnable() || topSuite
+      runnable.addDeprecationWarning(deprecation)
+      if (typeof console !== 'undefined' && typeof console.error === 'function') {
+        console.error('DEPRECATION:', deprecation)
+      }
+    }
+
   }
 
   return Env

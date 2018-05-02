@@ -168,6 +168,19 @@ getJasmineRequireObj().Env = function(j$) {
       return fullName.join(' ')
     }
 
+    // TODO: we may just be able to pass in the fn instead of wrapping here
+    const buildExpectationResult = j$.buildExpectationResult
+    const exceptionFormatter = new j$.ExceptionFormatter()
+    const expectationResultFactory = (attrs) => {
+      attrs.messageFormatter = exceptionFormatter.message
+      attrs.stackFormatter = exceptionFormatter.stack
+
+      return buildExpectationResult(attrs)
+    }
+
+    const maximumSpecCallbackDepth = 20
+    const currentSpecCallbackDepth = 0
+
   }
 
   return Env

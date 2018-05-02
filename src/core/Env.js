@@ -60,6 +60,11 @@ getJasmineRequireObj().Env = function(j$) {
         })
       })
     }
+
+    this.specFilter = () => {
+      return true
+    }
+
   }
 
   return Env

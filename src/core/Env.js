@@ -181,6 +181,10 @@ getJasmineRequireObj().Env = function(j$) {
     const maximumSpecCallbackDepth = 20
     const currentSpecCallbackDepth = 0
 
+    this.throwOnExpectationFailure = function(value) {
+      throwOnExpectationFailure = !!value
+    }
+
   }
 
   return Env

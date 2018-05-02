@@ -92,6 +92,13 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    j$.Expectation.addCoreMatchers(j$.matchers)
+
+    let nextSpecId = 0
+    const getNextSpecId = () => {
+      return `spec${nextSpecId++}`
+    }
+
   }
 
   return Env

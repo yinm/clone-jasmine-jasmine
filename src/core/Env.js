@@ -28,6 +28,38 @@ getJasmineRequireObj().Env = function(j$) {
     let random = true
     let seed = null
     let hasFailure = false
+
+    const currentSuite = () => {
+      return currentlyExecutingSuites[currentlyExecutingSuites.length - 1]
+    }
+
+    const currentRunnable = () => {
+      return currentSpec || currentSuite()
+    }
+
+    let globalErrors = null
+
+    const installGlobalErrors = () => {
+      if (globalErrors) {
+        return
+      }
+
+      globalErrors = new j$.GlobalErrors()
+      globalErrors.install()
+    }
+
+    if (!options.suppressLoadErrors) {
+      installGlobalErrors()
+      globalErrors.pushListener((message, filename, lineno) => {
+        topSuite.result.failedExpectations.push({
+          passed: false,
+          globalErrorType: 'load',
+          message: message,
+          filename: filename,
+          lineno: lineno
+        })
+      })
+    }
   }
 
   return Env

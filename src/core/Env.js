@@ -197,6 +197,14 @@ getJasmineRequireObj().Env = function(j$) {
       return stopOnSpecFailure
     }
 
+    this.randomizeTests = function(value) {
+      random = !!value
+    }
+
+    this.randomTests = function() {
+      return random
+    }
+
   }
 
   return Env

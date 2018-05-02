@@ -104,6 +104,20 @@ getJasmineRequireObj().Env = function(j$) {
       return `suite${nextSuiteId++}`
     }
 
+    const expectationFactory = (actual, spec) => {
+      return j$.Expectation.Factory({
+        util: j$.matchersUtil,
+        customEqualityTesters: runnableResources[spec.id].customEqualityTesters,
+        customMatchers: runnableResources[spec.id].customMatchers,
+        actual: actual,
+        addExpectationResult: addExpectationResult
+      })
+
+      function addExpectationResult(passed, result) {
+        return spec.addExpectationResult(passed, result)
+      }
+    }
+
   }
 
   return Env

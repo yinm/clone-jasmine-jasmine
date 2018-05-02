@@ -220,6 +220,28 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    const queueRunnerFactory = function(options, args) {
+      let failFast = false
+
+      if (options.isLeaf) {
+        failFast = throwOnExpectationFailure
+      } else if (!options.isReporter) {
+        failFast = stopOnSpecFailure
+      }
+
+      options.clearStack = options.clearStack || clearStack
+      options.timeout = {setTimeout: realSetTimeout, clearTimeout: realClearTimeout}
+      options.fail = self.fail
+      options.globalErrors = globalErrors
+      options.completeOnFirstError = failFast
+      options.onException = options.onException || function(e) {
+        (currentRunnable() || topSuite).onException(e)
+      }
+      options.deprecated = self.deprecated()
+
+      new j$.QueueRunner(options).execute(args)
+    }
+
   }
 
   return Env

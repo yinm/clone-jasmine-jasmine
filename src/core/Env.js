@@ -205,6 +205,13 @@ getJasmineRequireObj().Env = function(j$) {
       return random
     }
 
+    this.seed = function(value) {
+      if (value) {
+        seed = value
+      }
+      return seed
+    }
+
   }
 
   return Env

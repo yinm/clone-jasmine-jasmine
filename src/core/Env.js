@@ -65,6 +65,14 @@ getJasmineRequireObj().Env = function(j$) {
       return true
     }
 
+    this.addSpyStrategy = (name, fn) => {
+      if (!currentRunnable()) {
+        throw new Error('Custom spy strategies must be added in a before function or a spec')
+      }
+
+      runnableResources[currentRunnable().id].customSpyStrategies[name] = fn
+    }
+
   }
 
   return Env

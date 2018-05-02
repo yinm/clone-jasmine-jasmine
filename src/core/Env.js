@@ -99,6 +99,11 @@ getJasmineRequireObj().Env = function(j$) {
       return `spec${nextSpecId++}`
     }
 
+    let nextSuiteId = 0
+    const getNextSuiteId = () => {
+      return `suite${nextSuiteId++}`
+    }
+
   }
 
   return Env

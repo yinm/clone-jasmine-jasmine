@@ -81,6 +81,17 @@ getJasmineRequireObj().Env = function(j$) {
       runnableResources[currentRunnable().id].customeEqualityTesters.push(tester)
     }
 
+    this.addMatchers = (matchersToAdd) => {
+      if (!currentRunnable()) {
+        throw new Error('Mathcers must be added in a before function or a spec')
+      }
+
+      const customMatchers = runnableResources[currentRunnable().id].customMatchers
+      for (let matcherName in matchersToAdd) {
+        customMatchers[matcherName] = matchersToAdd[matcherName]
+      }
+    }
+
   }
 
   return Env

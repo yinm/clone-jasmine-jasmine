@@ -242,6 +242,20 @@ getJasmineRequireObj().Env = function(j$) {
       new j$.QueueRunner(options).execute(args)
     }
 
+    const topSuite = new j$.Suite({
+      env: this,
+      id: getNextSuiteId(),
+      description: 'Jasmine__TopLevel__Suite',
+      expectationFactory: expectationFactory,
+      expectationResultFactory: expectationResultFactory
+    })
+    defaultResourcesForRunnable(topSuite.id)
+    currentDeclarationSuite = topSuite
+
+    this.topSuite = function() {
+      return topSuite
+    }
+
   }
 
   return Env

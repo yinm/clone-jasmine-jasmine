@@ -73,6 +73,14 @@ getJasmineRequireObj().Env = function(j$) {
       runnableResources[currentRunnable().id].customSpyStrategies[name] = fn
     }
 
+    this.addCustomEqualityTester = (tester) => {
+      if (!currentRunnable()) {
+        throw new Error('Custom Equalities must be added in a before function or a spec')
+      }
+
+      runnableResources[currentRunnable().id].customeEqualityTesters.push(tester)
+    }
+
   }
 
   return Env

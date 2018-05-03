@@ -102,5 +102,10 @@ getJasmineRequireObj().Suite = function(j$) {
     return this.beforeAllFns.length === 0 && this.afterAllFns.length === 0
   }
 
+  Suite.prototype.getResult = function() {
+    this.result.status = this.status()
+    return this.result
+  }
+
   return Suite
 }

@@ -328,6 +328,108 @@ getJasmineRequireObj().Env = function(j$) {
       'specDone'
     ], queueRunnerFactory)
 
+    this.execute = function(runnablesToRun) {
+      const self = this
+      installGlobalErrors()
+
+      if (!runnablesToRun) {
+        if (focusedRunnables.length) {
+          runnablesToRun = focusedRunnables
+        } else {
+          runnablesToRun = [topSuite.id]
+        }
+      }
+
+      const order = new j$.Order({
+        random: random,
+        seed: seed
+      })
+
+      const processor = new j$.TreeProsessor({
+        tree: topSuite,
+        runnableIds: runnablesToRun,
+        queueRunnerFactory: queueRunnerFactory,
+        nodeStart: function(suite, next) {
+          currentlyExecutingSuites.push(suite)
+          defaultResourcesForRunnable(suite.id, sutie.parentSuite.id)
+          reporter.suiteStarted(suite.result, next)
+        },
+        nodeComplete: function(suite, result, next) {
+          if (suite !== currentSuite()) {
+            throw new Error('Tried to complete the wrong suite')
+          }
+
+          clearResourcesForRunnable(suite.id)
+          currentlyExecutingSuites.pop()
+
+          if (result.status === 'failed') {
+            hasFailure = true
+          }
+
+          reporter.suiteDone(result, next)
+        },
+        orderChildren(node) {
+          return order.sort(node.children)
+        },
+        excludeNode(spec) {
+          return !self.specFilter(spec)
+        }
+      })
+
+      if (!processor.processTree().valid) {
+        throw new Error('Invalid order: would cause a beforeAll or afterAll to be run multiple times')
+      }
+
+      /**
+       * Information passed to the {@link Reporter#jasmineStarted} event.
+       * @typedef JasmineStartedInfo
+       * @property {Int} totalSpecDefined - The total number of specs defined in this suite.
+       * @property {Order} order - Information about the ordering (random or not) of this execution of the suite.
+       */
+      reporter.jasmineStarted({
+        totalSpecDefined: totalSpecsDefined,
+        order: order
+      }, function() {
+        currentlyExecutingSuites.push(topSuite)
+
+        processor.execute(function() {
+          clearResourcesForRunnable(topSuite.id)
+          currentlyExecutingSuites.pop()
+          let overallStatus
+          let incompleteReason
+
+          if (hasFailure || topSuite.result.failedExpectations.length > 0) {
+            overallStatus = 'failed'
+          } else if (focusedRunnables.length > 0) {
+            overallStatus = 'incomplete'
+            incompleteReason = 'fit() or fdescribe() was found'
+          } else if (totalSpecsDefined === 0) {
+            overallStatus = 'incomplete'
+            incompleteReason = 'No specs found'
+          } else {
+            overallStatus = 'passed'
+          }
+
+          /**
+           * Information passed to the {@link Reporter#jasmineDone} event.
+           * @typedef JasmineDoneInfo
+           * @property {OverallStatus} overallStatus - The overall result of the suite: 'passed', 'failed', or 'incomplete'.
+           * @property {IncompleteReason} incompleteReason - Explanation of why the suite was incomplete.
+           * @property {Order} order - Information about the ordering (random or not) of this execution of the suite.
+           * @property {Expectation[]} failedExpectations - List of expectations that failed in an {@link afterAll} at the global level.
+           * @property {Expectation[]} deprecationWarnings - List of deprecation warnings that occurred at the global level.
+           */
+          reporter.jasmineDone({
+            overallStatus: overallStatus,
+            incompleteReason: incompleteReason,
+            order: order,
+            failedExpectations: topSuite.result.failedExpectations,
+            deprecationWarnings: topSuite.result.deprecationWarnings
+          }, function() {})
+        })
+      })
+    }
+
   }
 
   return Env

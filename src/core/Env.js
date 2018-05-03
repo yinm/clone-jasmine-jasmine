@@ -592,6 +592,18 @@ getJasmineRequireObj().Env = function(j$) {
       return null
     }
 
+    function unfocusAncestor() {
+      const focusedAncestor = findFocusedAncestor(currentDeclarationSuite)
+      if (focusedAncestor) {
+        for (let i = 0; i < focusedRunnables.length; i++) {
+          if (focusedRunnables[i] === focusedAncestor) {
+            focusedRunnables.splice(i, 1)
+            break
+          }
+        }
+      }
+    }
+
   }
 
   return Env

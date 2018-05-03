@@ -695,6 +695,17 @@ getJasmineRequireObj().Env = function(j$) {
       return currentRunnable().expect(actual)
     }
 
+    this.beforeEach = function(beforeEachFunction, timeout) {
+      ensureIsNotNested('beforeEach')
+      ensureIsFunctionOrAsync(beforeEachFunction, 'beforeEach')
+      currentDeclarationSuite.beforeEach({
+        fn: beforeEachFunction,
+        timeout() {
+          return timeout || j$.DEFAULT_TIMEOUT_INTERVAL
+        }
+      })
+    }
+
   }
 
   return Env

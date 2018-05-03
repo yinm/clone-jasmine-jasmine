@@ -677,6 +677,16 @@ getJasmineRequireObj().Env = function(j$) {
       return spec
     }
 
+    this.fit = function(description, fn, timeout) {
+      ensureIsNotNested('fit')
+      ensureIsFunctionOrAsync(fn, 'fit')
+      const spec = specFactory(description, fn, currentDeclarationSuite, timeout)
+      currentDeclarationSuite.addChild(spec)
+      focusedRunnables.push(spec.id)
+      unfocusAncestor()
+      return spec
+    }
+
   }
 
   return Env

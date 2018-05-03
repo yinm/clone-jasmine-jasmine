@@ -255,4 +255,14 @@ getJasmineRequireObj().pp = function(j$) {
     }
   }
 
+  PrettyPrinter.prototype.append = function(value) {
+    const result = truncate(value, j$.MAX_PRETTY_PRINT_CHARS - this.length)
+    this.length += result.value.length
+    this.stringParts.push(result.value)
+
+    if (result.truncated) {
+      throw new MaxCharsReachedError()
+    }
+  }
+
 }

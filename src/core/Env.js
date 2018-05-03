@@ -604,6 +604,52 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    const specFactory = function(description, fn, suite, timeout) {
+      totalSpecsDefined++
+      const spec = new j$.Spec({
+        id: getNextSpecId(),
+        beforeAndAfterFns: beforeAndAfterFns(suite),
+        expectationFactory: expectationFactory,
+        resultCallback: specResultCallback,
+        getSpecName(spec) {
+          return getSpecName(spec, suite)
+        },
+        onStart: specStarted,
+        description: description,
+        expectationResultFactory: expectationResultFactory,
+        queueRunnerFactory: queueRunnerFactory,
+        userContext() {
+          return suite.clonedSharedUserContext()
+        },
+        queueablefn: {
+          fn: fn,
+          timeout() {
+            return timeout || j$.DEFAULT_TIMEOUT_INTERVAL
+          }
+        },
+        throwOnExpectationFailure: throwOnExpectationFailure
+      })
+
+      return spec
+
+      function specResultCallback(result, next) {
+        clearResourcesForRunnable(spec.id)
+        currentSpec = null
+
+        if (result.status === 'failed') {
+          hasFailure = true
+        }
+
+        reporter.specDone(result, next)
+      }
+
+      function specStarted(spec, next) {
+        currentSpec = spec
+        defaultResourcesForRunnable(spec.id, suite.id)
+        reporter.specStarted(spec.result, next)
+      }
+    }
+
   }
 
   return Env

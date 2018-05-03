@@ -82,5 +82,9 @@ getJasmineRequireObj().Suite = function(j$) {
     removeFns(this.afterFns)
   }
 
+  Suite.prototype.addChild = function(child) {
+    this.children.push(child)
+  }
+
   return Suite
 }

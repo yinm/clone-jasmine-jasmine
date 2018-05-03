@@ -56,5 +56,9 @@ getJasmineRequireObj().Suite = function(j$) {
     this.beforeFns.unshift(fn)
   }
 
+  Suite.prototype.beforeAll = function(fn) {
+    this.beforeAllFns.push(fn)
+  }
+
   return Suite
 }

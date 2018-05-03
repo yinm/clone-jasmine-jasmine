@@ -83,5 +83,11 @@ getJasmineRequireObj().JsApiReporter = function() {
       return suites_hash
     }
 
+    let specs = []
+
+    this.specDone = function(result) {
+      specs.push(result)
+    }
+
   }
 }

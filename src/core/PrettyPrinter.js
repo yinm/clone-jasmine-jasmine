@@ -136,4 +136,30 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(' ]')
   }
 
+  PrettyPrinter.prototype.emitSet = function(set) {
+    if (this.ppNestLevel_ > j$.MAX_PRETTY_PRINT_DEPTH) {
+      this.append('Set')
+      return
+    }
+    this.append('Set( ')
+    const size = Math.min(set.size, j$.MAX_PRETTY_PRINT_ARRAY_LENGTH)
+    let i = 0
+    set.forEach(function(value, key) {
+      if (i >= size) {
+        return
+      }
+      if (i > 0) {
+        this.append(', ')
+      }
+      this.format(value)
+
+      i++
+    }, this)
+
+    if (set.size > size) {
+      this.append(', ...')
+    }
+    this.append(' )')
+  }
+
 }

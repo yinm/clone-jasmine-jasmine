@@ -274,4 +274,9 @@ getJasmineRequireObj().pp = function(j$) {
     return { value: s, trucated: true }
   }
 
+  function MaxCharsReachedError() {
+    this.message = `Exceeded ${j$.MAX_PRETTY_PRINT_CHARS} characters while pretty-printing a value`
+  }
+  MaxCharsReachedError.prototype = new Error()
+
 }

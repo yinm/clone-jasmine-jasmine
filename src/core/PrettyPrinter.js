@@ -189,4 +189,35 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(' )')
   }
 
+  PrettyPrinter.prototype.emitObject = function(obj) {
+    const ctor = obj.constructor
+    const constructorName = typeof ctor === 'function' && obj instanceof ctor ?
+      j$.fnNameFor(obj.constructor) :
+      'null'
+
+    this.append(constructorName)
+
+    if (this.ppNestLevel_ > j$.MAX_PRETTY_PRINT_DEPTH) {
+      return
+    }
+
+    const self = this
+    this.append('({ ')
+    let first = true
+
+    const truncated = this.iterateObject(obj, function(property, isGetter) {
+      if (first) {
+        first = false
+      } else {
+        self.append(', ')
+      }
+
+      self.formatProperty(obj, property, isGetter)
+    })
+
+    if (truncated) { this.append(', ...') }
+
+    this.append(' })')
+  }
+
 }

@@ -449,6 +449,16 @@ getJasmineRequireObj().Env = function(j$) {
       reporter.clearReporters()
     }
 
+    const spyFactory = new j$.SpyFactory(function() {
+      const runnable = currentRunnable()
+
+      if (runnable) {
+        return runnableResources[runnable.id].customSpyStrategies
+      }
+
+      return {}
+    })
+
   }
 
   return Env

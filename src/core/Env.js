@@ -748,6 +748,37 @@ getJasmineRequireObj().Env = function(j$) {
       throw fullMessage
     }
 
+    this.fail = function(error) {
+      if (!currentRunnable()) {
+        throw new Error("'fail' was used when there was no current spec, this could be because an asynchronous test timed out")
+      }
+
+      let message = 'Failed'
+      if (error) {
+        message += ': '
+        if (error.message) {
+          message += error.message
+        } else if (j$.isString_(error)) {
+          message += error
+        } else {
+          // pretty print all kind of objects. This includes arrays.
+          message += j$.pp(error)
+        }
+      }
+
+      currentRunnable().addExpectationResult(false, {
+        matcherName: '',
+        passed: false,
+        expected: '',
+        actual: '',
+        message: message,
+        error: error && error.message ? error : null
+      })
+
+      if (self.throwingExpectationFailures()) {
+        throw new Error(message)
+      }
+    }
   }
 
   return Env

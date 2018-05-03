@@ -48,5 +48,9 @@ getJasmineRequireObj().Suite = function(j$) {
     return fullName.join(' ')
   }
 
+  Suite.prototype.pend = function() {
+    this.markedPending = true
+  }
+
   return Suite
 }

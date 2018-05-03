@@ -37,5 +37,16 @@ getJasmineRequireObj().Suite = function(j$) {
     return this.expectationFactroy(actual, this)
   }
 
+  Suite.prototype.getFullName = function() {
+    let fullName = []
+    for (let parentSuite = this; parentSuite; parentSuite = parentSuite.parentSuite) {
+      if (parentSuite.parentSuite) {
+        fullName.unshift(parentSuite.description)
+      }
+    }
+
+    return fullName.join(' ')
+  }
+
   return Suite
 }

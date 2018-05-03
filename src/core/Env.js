@@ -740,6 +740,14 @@ getJasmineRequireObj().Env = function(j$) {
       })
     }
 
+    this.pending = function(message) {
+      let fullMessage = j$.Spec.pendingSpecExceptionMessage
+      if (message) {
+        fullMessage += message
+      }
+      throw fullMessage
+    }
+
   }
 
   return Env

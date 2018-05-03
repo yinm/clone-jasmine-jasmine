@@ -220,4 +220,16 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(' })')
   }
 
+  PrettyPrinter.prototype.emitTypedArray = function(arr) {
+    const constructorName = j$.fnNameFor(arr.constructor)
+    const limitedArray = Array.prototype.slice.call(arr, 0, j$.MAX_PRETTY_PRINT_ARRAY_LENGTH)
+    let itemsString = Array.prototype.join.call(limitedArray, ', ')
+
+    if (limitedArray.length !== arr.length) {
+      itemsString += ', ...'
+    }
+
+    this.append(`${constructorName} [ ${itemsString} ]`)
+  }
+
 }

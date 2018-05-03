@@ -11,5 +11,12 @@ getJasmineRequireObj().JsApiReporter = function() {
     this.started = false
     this.finished = false
     timer.runDetails = {}
+
+    this.jasmineStarted = function() {
+      this.started = true
+      status = 'started'
+      timer.start()
+    }
+
   }
 }

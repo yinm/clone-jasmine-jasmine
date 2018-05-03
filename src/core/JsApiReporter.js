@@ -4,6 +4,12 @@ getJasmineRequireObj().JsApiReporter = function() {
     elapsed() { return 0 }
   }
 
+  /**
+   * @name JsApiReporter
+   * @classdesc {@link Reporter} added by default in `boot.js` to record results for retrieval in javascript code. An instance is made available as `JsApiReporter` on the global object.
+   * @class
+   * @hideconstructor
+   */
   function JsApiReporter(options) {
     const timer = options.timer || noopTimer
     let status = 'loaded'
@@ -35,6 +41,13 @@ getJasmineRequireObj().JsApiReporter = function() {
      */
     this.status = function() {
       return status
+    }
+
+    let suites = []
+    let suites_hash = {}
+
+    this.suiteStarted = function(result) {
+      suites_hash[result.id] = result
     }
 
   }

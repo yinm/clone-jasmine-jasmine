@@ -265,4 +265,13 @@ getJasmineRequireObj().pp = function(j$) {
     }
   }
 
+  function truncate(s, maxlen) {
+    if (s.length <= maxlen) {
+      return { value: s, truncated: false }
+    }
+
+    s = s.substring(0, maxlen - 4) + ' ...'
+    return { value: s, trucated: true }
+  }
+
 }

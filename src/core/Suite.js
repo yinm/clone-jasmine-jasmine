@@ -86,5 +86,17 @@ getJasmineRequireObj().Suite = function(j$) {
     this.children.push(child)
   }
 
+  Suite.prototype.status = function() {
+    if (this.markedPending) {
+      return 'pending'
+    }
+
+    if (this.result.failedExpectations.length > 0) {
+      return 'failed'
+    } else {
+      return 'passed'
+    }
+  }
+
   return Suite
 }

@@ -52,5 +52,9 @@ getJasmineRequireObj().Suite = function(j$) {
     this.markedPending = true
   }
 
+  Suite.prototype.beforeEach = function(fn) {
+    this.beforeFns.unshift(fn)
+  }
+
   return Suite
 }

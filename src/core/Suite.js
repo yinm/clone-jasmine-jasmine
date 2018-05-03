@@ -107,5 +107,15 @@ getJasmineRequireObj().Suite = function(j$) {
     return this.result
   }
 
+  Suite.prototype.sharedUserContext = function() {
+    if (!this.sharedUserContext) {
+      this.sharedUserContext = this.parentSuite ?
+        this.parentSuite.clonedSharedUserContext() :
+        new j$.UserContext()
+    }
+
+    return this.sharedUserContext
+  }
+
   return Suite
 }

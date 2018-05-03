@@ -152,5 +152,13 @@ getJasmineRequireObj().Suite = function(j$) {
     }
   }
 
+  Suite.prototype.addDeprecationWarning = function(deprecation) {
+    if (typeof deprecation === 'string') {
+      deprecation = { message: deprecation }
+    }
+
+    this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
+  }
+
   return Suite
 }

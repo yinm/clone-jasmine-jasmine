@@ -665,6 +665,18 @@ getJasmineRequireObj().Env = function(j$) {
       return spec
     }
 
+    this.xit = function(description, fn, timeout) {
+      ensureIsNotNested('xit')
+      // xit(), like it(), doesn't always have a fn argument, so only check the
+      // type when needed.
+      if (arguments.length > 1 && typeof fn !== 'undefined') {
+        ensureIsFunctionOrAsync(fn, 'xit')
+      }
+      const spec = this.it.apply(this, arguments)
+      spec.pend('Temporarily disabled with xit')
+      return spec
+    }
+
   }
 
   return Env

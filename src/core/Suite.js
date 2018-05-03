@@ -33,5 +33,9 @@ getJasmineRequireObj().Suite = function(j$) {
     }
   }
 
+  Suite.prototype.expect = function(actual) {
+    return this.expectationFactroy(actual, this)
+  }
+
   return Suite
 }

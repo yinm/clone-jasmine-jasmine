@@ -538,6 +538,15 @@ getJasmineRequireObj().Env = function(j$) {
       return suite
     }
 
+    this.xdescribe = function(description, specDefinitions) {
+      ensureIsNotNested('xdescribe')
+      ensureIsFunction(specDefinitions, 'xdescribe')
+      const suite = suiteFactory(description)
+      suite.pend()
+      addSpecsToSuite(suite, specDefinitions)
+      return suite
+    }
+
   }
 
   return Env

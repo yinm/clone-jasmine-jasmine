@@ -562,6 +562,25 @@ getJasmineRequireObj().Env = function(j$) {
       return suite
     }
 
+    function addSpecsToSuite(suite, specDefinitions) {
+      const parentSuite = currentDeclarationSuite
+      parentSuite.addChild(suite)
+      currentDeclarationSuite = suite
+
+      let declarationError = null
+      try {
+        specDefinitions.call(suite)
+      } catch (e) {
+        declarationError = e
+      }
+
+      if (declarationError) {
+        suite.onException(declarationError)
+      }
+
+      currentDeclarationSuite = parentSuite
+    }
+
   }
 
   return Env

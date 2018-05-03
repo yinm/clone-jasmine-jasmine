@@ -706,6 +706,17 @@ getJasmineRequireObj().Env = function(j$) {
       })
     }
 
+    this.beforeAll = function(beforeAllFunction, timeout) {
+      ensureIsNotNested('beforeAll')
+      ensureIsFunctionOrAsync(beforeAllFunction, 'beforeAll')
+      currentDeclarationSuite.beforeAll({
+        fn: beforeAllFunction,
+        timeout() {
+          return timeout || j$.DEFAULT_TIMEOUT_INTERVAL
+        }
+      })
+    }
+
   }
 
   return Env

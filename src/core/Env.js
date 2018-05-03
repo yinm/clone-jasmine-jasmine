@@ -487,6 +487,10 @@ getJasmineRequireObj().Env = function(j$) {
       return spyFactory.createSpy(name, originalFn)
     }
 
+    this.createSpyObj = function(baseName, methodNames) {
+      return spyFactory.createSpyObj(baseName, methodName)
+    }
+
   }
 
   return Env

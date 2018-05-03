@@ -27,5 +27,15 @@ getJasmineRequireObj().JsApiReporter = function() {
       status = 'done'
     }
 
+    /**
+     * Get the current status for the Jasmine environment.
+     * @name JsApiReporter#status
+     * @function
+     * @returns {string} - One of `loaded`, `started` or `done`
+     */
+    this.status = function() {
+      return status
+    }
+
   }
 }

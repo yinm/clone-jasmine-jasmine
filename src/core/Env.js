@@ -547,6 +547,21 @@ getJasmineRequireObj().Env = function(j$) {
       return suite
     }
 
+    let focusedRunnables = []
+
+    this.fdescribe = function(description, specDefinitions) {
+      ensureIsNotNested('fdescribe')
+      ensureIsFunction(specDefinitions, 'fdescribe')
+      const suite = suiteFactory(description)
+      suite.isFocused = true
+
+      focusedRunnables.push(suite.id)
+      unfocusAncestor()
+      addSpecsToSuite(suite, specDefinitions)
+
+      return suite
+    }
+
   }
 
   return Env

@@ -510,6 +510,20 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    const suiteFactory = function(description) {
+      const suite = new j$.Sutie({
+        env: self,
+        id: getNextSuiteId(),
+        description: description,
+        parentSuite: currentDeclarationSuite,
+        expectationFactory: expectationFactory,
+        expectationResultFactory: expectationResultFactory,
+        throwOnExpectationFailure: throwOnExpectationFailure
+      })
+
+      return suite
+    }
+
   }
 
   return Env

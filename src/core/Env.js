@@ -524,6 +524,20 @@ getJasmineRequireObj().Env = function(j$) {
       return suite
     }
 
+    this.describe = function(description, specDefinitions) {
+      ensureIsNotNested('describe')
+      ensureIsFunction(specDefinitions, 'describe')
+      const suite = suiteFactory(description)
+      if (specDefinitions.length > 0) {
+        throw new Error('describe does not expect any arguments')
+      }
+      if (currentDeclarationSuite.markedPending) {
+        suite.pend()
+      }
+      addSpecsToSuite(suite, specDefinitions)
+      return suite
+    }
+
   }
 
   return Env

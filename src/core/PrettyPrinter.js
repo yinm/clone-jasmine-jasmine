@@ -19,5 +19,8 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(value)
   }
 
+  PrettyPrinter.prototype.emitString = function(value) {
+    this.append(`'${value}'`)
+  }
 
 }

@@ -100,4 +100,40 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(`'${value}'`)
   }
 
+  PrettyPrinter.prototype.emitArray = function(array) {
+    if (this.ppNestLevel_ > j$.MAX_PRETTY_PRINT_ARRAY_LENGTH) {
+      this.append('Array')
+      return
+    }
+
+    const length = Math.min(array.length, j$.MAX_PRETTY_PRINT_ARRAY_LENGTH)
+    this.append('[ ')
+    for (let i = 0; i < length; i++) {
+      if (i > 0) {
+        this.append(', ')
+      }
+      this.format(array[i])
+    }
+
+    if (array.length > length) {
+      this.append(', ...')
+    }
+
+    const self = this
+    let first = array.length === 0
+    const truncated = this.iterateObject(array, (property, isGetter) => {
+      if (first) {
+        first = false
+      } else {
+        self.append(', ')
+      }
+
+      self.formatProperty(array, property, isGetter)
+    })
+
+    if (truncated) { this.append(', ....') }
+
+    this.append(' ]')
+  }
+
 }

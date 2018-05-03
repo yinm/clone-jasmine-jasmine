@@ -244,4 +244,15 @@ getJasmineRequireObj().pp = function(j$) {
     }
   }
 
+  PrettyPrinter.prototype.formatProperty = function(obj, property, isGetter) {
+    this.append(property)
+    this.append(': ')
+
+    if (isGetter) {
+      this.append('<getter>')
+    } else {
+      this.format(obj[property])
+    }
+  }
+
 }

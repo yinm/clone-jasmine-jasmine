@@ -471,6 +471,10 @@ getJasmineRequireObj().Env = function(j$) {
       }
     })
 
+    this.allowRespy = function(allow) {
+      spyRegistry.allowRespy(allow)
+    }
+
   }
 
   return Env

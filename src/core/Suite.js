@@ -98,5 +98,9 @@ getJasmineRequireObj().Suite = function(j$) {
     }
   }
 
+  Suite.prototype.canBeReentered = function() {
+    return this.beforeAllFns.length === 0 && this.afterAllFns.length === 0
+  }
+
   return Suite
 }

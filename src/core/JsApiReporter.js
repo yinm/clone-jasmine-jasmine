@@ -113,5 +113,16 @@ getJasmineRequireObj().JsApiReporter = function() {
       return specs
     }
 
+    /**
+     * Get the number of milliseconds it took for full Jasmine suite to run.
+     * @name JsApiReporter#executionTime
+     * @function
+     * @returns {Number}
+     */
+    this.executionTime = function() {
+      return executionTime
+    }
   }
+
+  return JsApiReporter
 }

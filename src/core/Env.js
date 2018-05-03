@@ -430,6 +430,17 @@ getJasmineRequireObj().Env = function(j$) {
       })
     }
 
+    /**
+     * Add a custom reporter to the Jasmine environment.
+     * @name Env#addReporter
+     * @function
+     * @param {Reporter} reporterToAdd The reporter to be added.
+     * @see custom_reporter
+     */
+    this.addReporter = function(reporterToAdd) {
+      reporter.addReporter(reporterToAdd)
+    }
+
   }
 
   return Env

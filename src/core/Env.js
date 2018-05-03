@@ -503,6 +503,13 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    function ensureIsNotNested(method) {
+      const runnable = currentRunnable()
+      if (runnable !== null && runnable !== undefined) {
+        throw new Error(`'${method}' should only be used in 'describe' function`)
+      }
+    }
+
   }
 
   return Env

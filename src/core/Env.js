@@ -717,6 +717,18 @@ getJasmineRequireObj().Env = function(j$) {
       })
     }
 
+    this.afterEach = function(afterEachFunction, timeout) {
+      ensureIsNotNested('afterEach')
+      ensureIsFunctionOrAsync(afterEachFunction, 'afterEach')
+      afterEachFunction.isCleanup = true
+      currentDeclarationSuite.afterEach({
+        fn: afterEachFunction,
+        timeout() {
+          return timeout || j$.DEFAULT_TIMEOUT_INTERVAL
+        }
+      })
+    }
+
   }
 
   return Env

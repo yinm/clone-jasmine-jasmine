@@ -162,4 +162,31 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(' )')
   }
 
+  PrettyPrinter.prototype.emitMap = function(map) {
+    if (this.ppNestLevel_ > j$.MAX_PRETTY_PRINT_DEPTH) {
+      this.append('Map')
+      return
+    }
+
+    this.append('Map( ')
+    const size = Math.min(map.size, j$.MAX_PRETTY_PRINT_ARRAY_LENGTH)
+    let i = 0
+    map.forEach(function (value, key) {
+      if (i >= size) {
+        return
+      }
+      if (i > 0) {
+        this.append(', ')
+      }
+      this.format([key,value])
+
+      i++
+    }, this)
+
+    if (map.size > size) {
+      this.append(', ...')
+    }
+    this.append(' )')
+  }
+
 }

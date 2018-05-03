@@ -687,6 +687,14 @@ getJasmineRequireObj().Env = function(j$) {
       return spec
     }
 
+    this.expect = function(actual) {
+      if (!currentRunnable()) {
+        throw new Error("'expect' was used when there was no current spec, this could be because an asynchronous test timed out")
+      }
+
+      return currentRunnable().expect(actual)
+    }
+
   }
 
   return Env

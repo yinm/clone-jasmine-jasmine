@@ -650,6 +650,21 @@ getJasmineRequireObj().Env = function(j$) {
       }
     }
 
+    this.it = function(description, fn, timeout) {
+      ensureIsNotNested('it')
+      // it() sometimes doesn't have a fn argument, so only check the type if
+      // it's given.
+      if (arguments.length > 1 && typeof fn !== 'undefined') {
+        ensureIsFunctionOrAsync(fn, 'it')
+      }
+      const spec = specFactory(description, fn, currentDeclarationSuite, timeout)
+      if (currentDeclarationSuite.markedPending) {
+        spec.pend()
+      }
+      currentDeclarationSuite.addChild(spec)
+      return spec
+    }
+
   }
 
   return Env

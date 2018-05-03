@@ -483,6 +483,10 @@ getJasmineRequireObj().Env = function(j$) {
       return spyRegistry.spyOnProperty.apply(spyRegistry, arguments)
     }
 
+    this.createSpy = function(name, originalFn) {
+      return spyFactory.createSpy(name, originalFn)
+    }
+
   }
 
   return Env

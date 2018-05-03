@@ -73,5 +73,15 @@ getJasmineRequireObj().JsApiReporter = function() {
       suites_hash[result.id] = result
     }
 
+    /**
+     * Get all of the suites in a single object, with their `id` as the key.
+     * @name JsApiReporter#suites
+     * @function
+     * @returns {Object} - Map of suite id to {@link SuiteResult}
+     */
+    this.suites = function() {
+      return suites_hash
+    }
+
   }
 }

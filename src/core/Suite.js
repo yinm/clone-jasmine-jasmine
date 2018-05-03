@@ -69,5 +69,11 @@ getJasmineRequireObj().Suite = function(j$) {
     this.afterAllFns.unshift(fn)
   }
 
+  function removeFns(queueableFns) {
+    for (let i = 0; i < queueableFns.length; i++) {
+      queueableFns[i].fn = null
+    }
+  }
+
   return Suite
 }

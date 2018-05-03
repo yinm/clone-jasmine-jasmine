@@ -50,5 +50,9 @@ getJasmineRequireObj().JsApiReporter = function() {
       suites_hash[result.id] = result
     }
 
+    this.suiteDone = function(result) {
+      storeSuite(result)
+    }
+
   }
 }

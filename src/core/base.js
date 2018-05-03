@@ -62,7 +62,7 @@ getJasmineRequireObj().base = function($j, jasmineGlobal) {
     return j$.isA_('AsyncFunction', value)
   }
 
-  j$.isTypedArray = (value) => {
+  j$.isTypedArray_ = (value) => {
     return j$.isA_('Float32Array', value) ||
       j$.isA_('Float64Array', value) ||
       j$.isA_('Int16Array', value) ||

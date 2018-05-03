@@ -103,5 +103,15 @@ getJasmineRequireObj().JsApiReporter = function() {
       return specs.slice(index, index + length)
     }
 
+    /**
+     * Get all spec results.
+     * @name JsApiReporter#specs
+     * @function
+     * @returns {SpecResult[]}
+     */
+    this.specs = function() {
+      return specs
+    }
+
   }
 }

@@ -142,5 +142,15 @@ getJasmineRequireObj().Suite = function(j$) {
     this.result.failedExpectations.push(failedExpectation)
   }
 
+  Suite.prototype.addExpectationResult = function() {
+    if (isFailure(arguments)) {
+      const data = arguments[1]
+      this.result.failedExpectations.push(this.expectationResultFactory(data))
+      if (this.throwOnExpectationFailure) {
+        throw new j$.errors.ExpectationFailed()
+      }
+    }
+  }
+
   return Suite
 }

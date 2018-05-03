@@ -279,4 +279,36 @@ getJasmineRequireObj().pp = function(j$) {
   }
   MaxCharsReachedError.prototype = new Error()
 
+  function keys(obj, isArray) {
+    const allKeys = Object.keys ?
+      Object.keys(obj) :
+      (function(o) {
+        let keys = []
+        for (let key in o) {
+          if (j$.util.has(o, key)) {
+            keys.push(key)
+          }
+        }
+
+        return keys
+      })(obj)
+
+    if (!isArray) {
+      return allKeys
+    }
+
+    if (allKeys.length === 0) {
+      return allKeys
+    }
+
+    let extraKeys = []
+    for (let i = 0; i < allKeys.length; i++) {
+      if (!/^\[0-9]+$/.test(allKeys[i])) {
+        extraKeys.push(allKeys[i])
+      }
+    }
+
+    return extraKeys
+  }
+
 }

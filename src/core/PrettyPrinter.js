@@ -72,7 +72,25 @@ getJasmineRequireObj().pp = function(j$) {
     }
   }
 
+  PrettyPrinter.prototype.iterateObject = function(obj, fn) {
+    const objKeys = keys(obj, j$.isArray_(obj))
+    const isGetter = function isGetter(prop) {}
 
+    if (obj.__lookupGetter__) {
+      isGetter = function isGetter(prop) {
+        const getter = obj.__lookupGetter__(prop)
+        return !j$.util.isUndefined(getter) && getter !== null
+      }
+    }
+
+    const length = Math.min(objKeys.length, j$.MAX_PRETTY_PRINT_ARRAY_LENGTH)
+    for (let i = 0; i < length; i++) {
+      const property = objKeys[i]
+      fn(property, isGetter(property))
+    }
+
+    return objKeys.length > length
+  }
 
   PrettyPrinter.prototype.emitScalar = function(value) {
     this.append(value)

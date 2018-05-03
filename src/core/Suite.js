@@ -160,5 +160,9 @@ getJasmineRequireObj().Suite = function(j$) {
     this.result.deprecationWarnings.push(this.expectationResultFactory(deprecation))
   }
 
+  function isFailure(args) {
+    return !args[0]
+  }
+
   return Suite
 }

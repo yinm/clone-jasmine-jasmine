@@ -18,5 +18,14 @@ getJasmineRequireObj().JsApiReporter = function() {
       timer.start()
     }
 
+    let executionTime
+
+    this.jasmineDone = function(runDetails) {
+      this.finished = true
+      this.runDetails = runDetails
+      executionTime = timer.elapsed()
+      status = 'done'
+    }
+
   }
 }

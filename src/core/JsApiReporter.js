@@ -54,5 +54,19 @@ getJasmineRequireObj().JsApiReporter = function() {
       storeSuite(result)
     }
 
+    /**
+     * Get the results for a set of suites.
+     *
+     * Retrievable in slices for easier serialization.
+     * @name JsApiReporter#suiteResults
+     * @function
+     * @param {Number} index - The position in the suites list to start form.
+     * @param {Number} length - Maximum number of suite results to return.
+     * @returns {SuiteResult[}
+     */
+    this.suiteResults = function(index, length) {
+      return suites.slice(index, index + length)
+    }
+
   }
 }

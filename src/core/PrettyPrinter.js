@@ -311,4 +311,9 @@ getJasmineRequireObj().pp = function(j$) {
     return extraKeys
   }
 
+  return function(value) {
+    const prettyPrinter = new PrettyPrinter()
+    prettyPrinter.format(value)
+    return prettyPrinter.stringParts.join('')
+  }
 }

@@ -493,7 +493,13 @@ getJasmineRequireObj().Env = function(j$) {
 
     const ensureIsFunction = (fn, caller) => {
       if (!j$.isFunction_(fn)) {
-        throw new Error(`${caller} expects a function argument: received ${j$.getType_(fn)}`)
+        throw new Error(`${caller} expects a function argument; received ${j$.getType_(fn)}`)
+      }
+    }
+
+    const ensureIsFunctionOrAsync = (fn, caller) => {
+      if (!j$.isFunction_(fn) && !j$.isAsyncFunction_(fn)) {
+        throw new Error(`${caller} expects a function argument; received ${j$.getType_(fn)}`)
       }
     }
 

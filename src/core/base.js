@@ -58,7 +58,7 @@ getJasmineRequireObj().base = function($j, jasmineGlobal) {
     return j$.isA_('Function', value)
   }
 
-  j$.isAsyncFunction = (value) => {
+  j$.isAsyncFunction_ = (value) => {
     return j$.isA_('AsyncFunction', value)
   }
 

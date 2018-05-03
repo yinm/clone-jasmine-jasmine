@@ -75,5 +75,12 @@ getJasmineRequireObj().Suite = function(j$) {
     }
   }
 
+  Suite.prototype.cleanupBeforeAfter = function() {
+    removeFns(this.beforeAllFns)
+    removeFns(this.afterAllFns)
+    removeFns(this.beforeFns)
+    removeFns(this.afterFns)
+  }
+
   return Suite
 }

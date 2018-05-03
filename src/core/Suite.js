@@ -121,5 +121,26 @@ getJasmineRequireObj().Suite = function(j$) {
     return j$.UserContext.fromExsiting(this.sharedUserContext())
   }
 
+  Suite.prototype.onException = function() {
+    if (arguments[0] instanceof j$.errors.ExpectationFailed) {
+      return
+    }
+
+    const data = {
+      matcherName: '',
+      passed: false,
+      expected: '',
+      actual: '',
+      error: arguments[0]
+    }
+    const failedExpectation = this.expectationResultFactory(data)
+
+    if (!this.parentSuite) {
+      failedExpectation.globalErrorType = 'afterAll'
+    }
+
+    this.result.failedExpectations.push(failedExpectation)
+  }
+
   return Suite
 }

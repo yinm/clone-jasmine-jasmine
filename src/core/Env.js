@@ -491,6 +491,12 @@ getJasmineRequireObj().Env = function(j$) {
       return spyFactory.createSpyObj(baseName, methodName)
     }
 
+    const ensureIsFunction = (fn, caller) => {
+      if (!j$.isFunction_(fn)) {
+        throw new Error(`${caller} expects a function argument: received ${j$.getType_(fn)}`)
+      }
+    }
+
   }
 
   return Env

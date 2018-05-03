@@ -54,7 +54,7 @@ getJasmineRequireObj().base = function($j, jasmineGlobal) {
     return j$.isA_('Number', value)
   }
 
-  j$.isFunction = (value) => {
+  j$.isFunction_ = (value) => {
     return j$.isA_('Function', value)
   }
 

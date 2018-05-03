@@ -64,5 +64,10 @@ getJasmineRequireObj().Suite = function(j$) {
     this.afterFns.unshift(fn)
   }
 
+  Suite.prototype.afterAll = function(fn) {
+    // TODO: ここはpushではない？
+    this.afterAllFns.unshift(fn)
+  }
+
   return Suite
 }

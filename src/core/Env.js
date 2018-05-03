@@ -441,6 +441,10 @@ getJasmineRequireObj().Env = function(j$) {
       reporter.addReporter(reporterToAdd)
     }
 
+    this.provideFallbackReporter = function(reporterToAdd) {
+      reporter.provideFallbackReporter(reporterToAdd)
+    }
+
   }
 
   return Env

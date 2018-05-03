@@ -89,5 +89,19 @@ getJasmineRequireObj().JsApiReporter = function() {
       specs.push(result)
     }
 
+    /**
+     * Get the results for a set of specs.
+     *
+     * Retrievable in slices for easier serialization.
+     * @name JsApiReporter#specResults
+     * @funciton
+     * @param {Number} index - The position in the specs list to start from.
+     * @param {Number} length - Maximum number of specs results to return.
+     * @returns {SpecResult[]}
+     */
+    this.specResults = function(index, length) {
+      return specs.slice(index, index + length)
+    }
+
   }
 }

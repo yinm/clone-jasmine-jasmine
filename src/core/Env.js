@@ -581,6 +581,17 @@ getJasmineRequireObj().Env = function(j$) {
       currentDeclarationSuite = parentSuite
     }
 
+    function findFocusedAncestor(suite) {
+      while (suite) {
+        if (suite.isFocused) {
+          return suite.id
+        }
+        suite = suite.parentSuite
+      }
+
+      return null
+    }
+
   }
 
   return Env

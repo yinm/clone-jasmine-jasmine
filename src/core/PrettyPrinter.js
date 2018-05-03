@@ -6,4 +6,11 @@ getJasmineRequireObj().pp = function(j$) {
     this.stringParts = []
   }
 
+
+
+  PrettyPrinter.prototype.emitScalar = function(value) {
+    this.append(value)
+  }
+
+
 }

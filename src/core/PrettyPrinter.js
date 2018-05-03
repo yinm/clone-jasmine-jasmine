@@ -232,4 +232,16 @@ getJasmineRequireObj().pp = function(j$) {
     this.append(`${constructorName} [ ${itemsString} ]`)
   }
 
+  PrettyPrinter.prototype.emitDomElement = function(el) {
+    const closingTag = `</${el.tagName.toLowerCase()}>`
+
+    if (el.innerHTML === '') {
+      this.append(el.outerHTML.replace(closingTag, ''))
+    } else {
+      const tagEnd = el.outerHTML.indexOf(el.innerHTML)
+      this.append(el.outerHTML.substring(0, tagEnd))
+      this.append(`...${closingTag}`)
+    }
+  }
+
 }

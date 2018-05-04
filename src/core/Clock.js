@@ -108,6 +108,65 @@ getJasmineRequireObj().Clock = function() {
 
     return self
 
+    function originalTimingFunctionsIntact() {
+      return global.setTimeout === realTimingFunctions.setTimeout &&
+        global.clearTimeout === realTimingFunctions.clearTimeout &&
+        global.setInterval === realTimingFunctions.setInterval &&
+        global.clearInterval === realTimingFunctions.clearInterval
+    }
+
+    function replace(dest, source) {
+      for (let prop in source) {
+        dest[prop] = source[prop]
+      }
+    }
+
+    function setTimeout(fn, delay) {
+      if (!NODE_JS) {
+        return delayedFunctionScheduler.scheduleFunction(fn, delay, argSlice(arguments, 2))
+      }
+
+      const timeout = new FakeTimeout()
+      delayedFunctionScheduler.scheduleFunction(fn, delay, argSlice(arguments, 2), false, timeout)
+
+      return timeout
+    }
+
+    function clearTimeout(id) {
+      return delayedFunctionScheduler.removeFunctionWithId(id)
+    }
+
+    function setInterval(fn, interval) {
+      if (!NODE_JS) {
+        return delayedFunctionScheduler.scheduleFunction(fn, interval, argSlice(arguments, 2), true)
+      }
+
+      const timeout = new FakeTimeout()
+      delayedFunctionScheduler.scheduleFunction(fn, interval, argSlice(arguments, 2), true, timeout)
+
+      return timeout
+    }
+
+    function clearInterval(id) {
+      return delayedFunctionScheduler.removeFunctionWithId(id)
+    }
+
+    function argSlice(argsObj, n) {
+      return Array.prototype.slice.call(argsObj, n)
+    }
+  }
+
+  /**
+   * Mocks Node.js Timeout class
+   */
+  function FakeTimeout() {}
+
+  FakeTimeout.prototype.ref = function() {
+    return this
+  }
+
+  FakeTimeout.prototype.unref = function() {
+    return this
   }
 
   return Clock

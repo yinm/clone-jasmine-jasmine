@@ -1,4 +1,4 @@
-getJasmineRequireObj().base = function($j, jasmineGlobal) {
+getJasmineRequireObj().base = function(j$, jasmineGlobal) {
   j$.unimplementedMethod_ = () => {
     throw new Error('unimplemented method')
   }

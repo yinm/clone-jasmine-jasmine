@@ -4,7 +4,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: pkg,
-    jshint: require('./grunt/config/jshint.js'),
     concat: require('./grunt/config/concat.js'),
     compass: require('./grunt/config/compass.js'),
     compress: require('./grunt/config/compress.js')
@@ -14,7 +13,6 @@ module.exports = function(grunt) {
 
   grunt.loadTasks('grunt/tasks');
 
-  grunt.registerTask('default', ['jshint:all']);
 
   var version = require('./grunt/tasks/version.js');
 
@@ -26,9 +24,7 @@ module.exports = function(grunt) {
     'Builds and lints jasmine.js, jasmine-html.js, jasmine.css',
     [
       'compass',
-      'jshint:beforeConcat',
       'concat',
-      'jshint:afterConcat',
       'build:copyVersionToGem'
     ]
   );

@@ -83,7 +83,7 @@ getJasmineRequireObj().StackTrace = function(j$) {
     if (len > 0) {
       return {
         message: stackLines.slice(0, len).join('\n'),
-        reminder: stackLines.slice(len)
+        remainder: stackLines.slice(len)
       }
     }
   }

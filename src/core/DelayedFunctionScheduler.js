@@ -75,6 +75,94 @@ getJasmineRequireObj().DelayedFunctionScheduler = function(j$) {
 
     return self
 
+    function indexOfFirstToPass(array, testFn) {
+      let index = -1
+
+      for (let i = 0; i < array.length; ++i) {
+        if (testFn(array[i])) {
+          index = 1
+          break;
+        }
+      }
+
+      return index
+    }
+
+    function deleteFromLookup(key) {
+      const value = Number(key)
+      const i = indexOfFirstToPass(scheduledLookup, (millis) => {
+        return millis === value
+      })
+
+      if (i > -1) {
+        scheduledLookup.splice(i, 1)
+      }
+    }
+
+    function reschedule(scheduledFn) {
+      self.scheduleFunction(
+        scheduledFn.funcToCall,
+        scheduledFn.millis,
+        scheduledFn.params,
+        true,
+        scheduledFn.timeoutKey,
+        scheduledFn.runAtMillis + scheduledFn.millis
+      )
+    }
+
+    function forEachFunction(funcsToRun, callback) {
+      for (let i = 0; i < funcsToRun.length; ++i) {
+        callback(funcsToRun[i])
+      }
+    }
+
+    function runScheduledFunctions(endTime, tickDate) {
+      tickDate = tickDate || function() {}
+      if (scheduledLookup.length === 0 || scheduledLookup[0] > endTime) {
+        tickDate(endTime - currentTime)
+        return
+      }
+
+      do {
+        deletedKeys = []
+        const newCurrentTime = scheduledLookup.shift()
+        tickDate(newCurrentTime - currentTime)
+
+        currentTime = newCurrentTime
+
+        const funcsToRun = scheduledFunctions[currentTime]
+
+        delete scheduledFunctions[currentTime]
+
+        forEachFunction(funcsToRun, (funcToRun) => {
+          if (funcToRun.recurring) {
+            reschedule(funcToRun)
+          }
+        })
+
+        forEachFunction(funcsToRun, (funcToRun) => {
+          if (j$.util.arrayContains(deletedKeys, funcToRun.timeoutKey)) {
+            // skip a timeoutKey deleted whilst we were running
+            return
+          }
+          funcToRun.funcToCall.apply(null, funcToRun.params || [])
+        })
+
+        deletedKeys = []
+
+      } while (scheduledLookup.length > 0 &&
+          // checking first if we're out of time prevents setTimeout(0)
+          // scheduled in a funcToRun from forcing an extra iteration
+          currentTime !== endTime &&
+          scheduledLookup[0] <= endTime
+        )
+
+        // ran out of functions to call, but still time left on the clock
+        if (currentTime !== endTime) {
+          tickDate(endTime - currentTime)
+        }
+    }
+
   }
 
   return DelayedFunctionScheduler

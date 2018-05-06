@@ -22,9 +22,9 @@ const getJasmineRequireObj = (function (jasmineGlobal) {
   }
 
   getJasmineRequire().core = function(jRequire) {
-    let $j = {}
+    let j$ = {}
 
-    jRequire.base($j, jasmineGlobal)
+    jRequire.base(j$, jasmineGlobal)
     j$.util = jRequire.util(j$)
     j$.errors = jRequire.errors()
     j$.formatErrorMsg = jRequire.formatErrorMsg()
@@ -72,7 +72,7 @@ const getJasmineRequireObj = (function (jasmineGlobal) {
 
     j$.matchers = jRequire.requireMatchers(jRequire, j$);
 
-    return $j
+    return j$
   }
 
   return getJasmineRequire

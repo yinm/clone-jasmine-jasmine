@@ -9,7 +9,7 @@ getJasmineRequireObj().util = (j$) => {
     childClass.prototype = new Subclass()
   }
 
-  uitl.htmlEscape = (str) => {
+  util.htmlEscape = (str) => {
     if (!str) {
       return str
     }
